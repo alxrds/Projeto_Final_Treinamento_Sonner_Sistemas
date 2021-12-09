@@ -122,11 +122,11 @@ export class NotasComponent implements OnInit {
   }
 
   public onUpdate(event: any){
-    debugger
     this.editPopUp = true;
     this.tituloPopUp = "Editar Nota";
     this.clienteSelecionado = true;
     this.idNota = event.data.id;
+    this.numItem++;
     this.nomeCliente = event.data.cliente.nome;
     this.editCliente = new Cliente();
     this.editCliente.id = event.data.cliente.id;
@@ -168,8 +168,6 @@ export class NotasComponent implements OnInit {
       editaNota.items = this.itemsNota;
       this.notas.push(editaNota);
       let notaAlterada: number = this.notas.length - 1;
-      console.log(this.notas)
-      debugger
       this.notaService.editNotas(this.notas[notaAlterada], this.idNota).subscribe(res => {
         alert(`Nota ${this.idNota} Editada com Sucesso`);
         this.limparCampos();
@@ -191,7 +189,6 @@ export class NotasComponent implements OnInit {
     }
 
     if(event.changes[0].type == "remove" && !this.editPopUp){
-      debugger
       this.notaService.deleteNotas(event.changes[0].key.id).subscribe(res => {
         alert(`Nota Excluída ${event.changes[0].key.id} com Sucesso`);
         this.limparCampos();
