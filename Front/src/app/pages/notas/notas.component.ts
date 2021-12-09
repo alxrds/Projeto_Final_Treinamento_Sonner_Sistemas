@@ -144,6 +144,7 @@ export class NotasComponent implements OnInit {
       debugger
       this.notaService.editNotas(this.notas[idNotaEdit], this.idNota).subscribe(res => {
         alert("Nota Editada com Sucesso");
+        this.limparCampos();
       });
     }
 
@@ -157,6 +158,7 @@ export class NotasComponent implements OnInit {
       delete this.notas[notaQueEstaAtrapalhando];
       this.notaService.addNota(this.notas[notaQueEuQuero]).subscribe(res => {
         alert("Nota Adicionada com Sucesso");
+        this.limparCampos();
       });
     }
 
@@ -164,6 +166,7 @@ export class NotasComponent implements OnInit {
       debugger
       this.notaService.deleteNotas(event.changes[0].key.id).subscribe(res => {
         alert(`Nota Excluída ${event.changes[0].key.id} com Sucesso`);
+        this.limparCampos();
       });
     }
 
