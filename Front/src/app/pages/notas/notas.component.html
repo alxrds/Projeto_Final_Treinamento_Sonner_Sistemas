@@ -1,0 +1,119 @@
+<h2 style="padding:25px">Administrar Notas</h2>
+<div style="padding:25px">
+
+  <div id="data-grid-demo">
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="notas"
+      [showBorders]="true"
+      (onSaving)="onCreate($event)"
+      (onEditingStart)="onUpdate($event)"
+      >
+      <dxo-export [enabled]="true" [allowExportSelectedData]="false" fileName="notas"></dxo-export>
+      <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+      <dxo-header-filter [visible]="true"></dxo-header-filter>
+      <dxo-search-panel [visible]="true"></dxo-search-panel>
+      <dxo-paging [enabled]="true"></dxo-paging>
+      <dxo-editing
+        mode="popup"
+        [allowAdding]="true"
+        [allowUpdating]="true"
+        [allowDeleting]="true"
+        [useIcons]="true">
+        <dxo-popup
+          title="{{tituloPopUp}}"
+          [showTitle]="true"
+          [width]="1080"
+          [height]="768">
+        </dxo-popup>
+          <dxo-form>
+            <dxi-item itemType="group" [colCount]="2" [colSpan]="2" >
+              <dxi-item dataField="cliente"></dxi-item>
+              <dxi-item dataField="produto"></dxi-item>
+              <dxi-item dataField="quantidade"></dxi-item>
+              <dxi-item dataField="btn"></dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+              <dxi-item dataField="item" [colSpan]="2"></dxi-item>
+            </dxi-item>
+          </dxo-form>
+      </dxo-editing>
+
+      <dxi-column dataField="cliente" [visible]="false" editCellTemplate="clienteTemplate" caption="Nome"></dxi-column>
+      <dxi-column dataField="produto" [visible]="false" editCellTemplate="produtoTemplate" caption="Produto"></dxi-column>
+      <dxi-column dataField="quantidade" [visible]="false" editCellTemplate="qtdTemplate" caption="Quantidade"></dxi-column>
+      <dxi-column dataField="btn" [visible]="false" editCellTemplate="btnTemplate" caption=" "></dxi-column>
+      <dxi-column dataField="numero" [formItem]="{visible: false}" caption="Número da Nota"></dxi-column>
+      <dxi-column dataField="dataNota" [formItem]="{visible: false}" caption="Data da Nota"></dxi-column>
+      <dxi-column dataField="cliente.codigo" [formItem]="{visible: false}" caption="Código do Cliente"></dxi-column>
+      <dxi-column dataField="cliente.nome" [formItem]="{visible: false}" caption="Nome do Cliente"></dxi-column>
+      <dxi-column dataField="cliente.cpf" [formItem]="{visible: false}" caption="CPF / CNPJ"></dxi-column>
+      <dxi-column dataField="valorNota" [formItem]="{visible: false}" caption="Total da Nota" [format]="{ style: 'currency', currency: 'BRL', useGrouping: true, minimumSignificantDigits: 3 }"></dxi-column>
+      <dxi-column dataField="item" [visible]="false" editCellTemplate="itemTemplate" caption=" "></dxi-column>
+
+      <div *dxTemplate="let data of 'clienteTemplate'">
+        <div *ngIf="!editPopUp">
+          <dx-select-box
+            [items]="clientes"
+            [displayExpr]="codigoNome"
+            [readOnly]="clienteSelecionado"
+            (onValueChanged)="onClienteValues($event)"
+          >
+          </dx-select-box>
+        </div>
+        <div *ngIf="editPopUp">
+          <dx-text-box [value]="nomeCliente" [readOnly]="clienteSelecionado"></dx-text-box>
+        </div>
+      </div>
+
+      <div *dxTemplate="let data of 'produtoTemplate'">
+        <dx-select-box
+          [items]="produtos"
+          [displayExpr]="codigoDescricao"
+          (onValueChanged)="onProdutoValues($event)"
+        >
+        </dx-select-box>
+      </div>
+
+      <div *dxTemplate="let data of 'qtdTemplate'">
+        <dx-number-box
+          [value]="1"
+          (onValueChanged)="onQuantidadeValues($event)"
+        >
+        </dx-number-box>
+      </div>
+
+      <div *dxTemplate="let data of 'btnTemplate'" style="padding-top: 15px">
+        <dx-button
+          stylingMode="contained"
+          text="Adicionar Produto"
+          type="success"
+          width="100%"
+          height="50px"
+          (onClick)="addItem($event)"
+          >
+        </dx-button>
+      </div>
+
+      <div *dxTemplate="let data of 'itemTemplate'">
+        <dx-data-grid
+          [dataSource]="itemsNota"
+        >
+          <dxo-editing
+            mode="row"
+            [allowDeleting]="true"
+          >
+          </dxo-editing>
+          <dxi-column dataField="item" caption="Item"></dxi-column>
+          <dxi-column dataField="produto.codigo" caption="Código"></dxi-column>
+          <dxi-column dataField="produto.descricao" caption="Descrição"></dxi-column>
+          <dxi-column dataField="quantidade" caption="Quantidade"></dxi-column>
+          <dxi-column dataField="produto.precoUnitario" caption="Valor Unitário"></dxi-column>
+          <dxi-column dataField="valorTotal" caption="Valor Total" [format]="{ style: 'currency', currency: 'BRL', useGrouping: true, minimumSignificantDigits: 3 }"></dxi-column>
+        </dx-data-grid>
+      </div>
+
+    </dx-data-grid>
+  </div>
+
+</div>

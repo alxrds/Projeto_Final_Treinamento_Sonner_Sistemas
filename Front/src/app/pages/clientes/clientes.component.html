@@ -1,0 +1,43 @@
+<h2 style="padding:25px">Administrar Clientes</h2>
+<div style="padding:25px">
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="clientes"
+    keyExpr="id"
+    [showBorders]="true"
+    (onRowInserted)="onCreateChange($event)"
+    (onRowUpdated)="onEditChange($event)"
+    (onRowRemoved)="onRemoveChange($event)"
+  >
+    <dxo-export [enabled]="true" [allowExportSelectedData]="false" fileName="clientes"></dxo-export>
+    <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 25, 50, 100]"
+    ></dxo-pager>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [enabled]="true"></dxo-paging>
+    <dxo-editing
+      mode="batch"
+      [allowUpdating]="true"
+      [allowAdding]="true"
+      [allowDeleting]="true"
+    ></dxo-editing>
+    <dxi-column dataField="codigo" caption="Código">
+      <dxi-validation-rule type="required" message="Campo Obrigatório"></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="nome" caption="Nome">
+      <dxi-validation-rule type="required" message="Campo Obrigatório"></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="cpf" caption="CPF / CNPJ">
+      <dxi-validation-rule type="required" message="Campo Obrigatório"></dxi-validation-rule>
+      <dxi-validation-rule type="stringLength" [min]="11" [max]="11" message="O CPF deve conter 11 números"></dxi-validation-rule>
+    </dxi-column>
+    <dxi-column dataField="telefone" caption="Telefone">
+      <dxi-validation-rule type="required" message="Campo Obrigatório"></dxi-validation-rule>
+      <dxi-validation-rule type="stringLength" [min]="11" [max]="11" message="O Telefone deve conter 11 números"></dxi-validation-rule>
+    </dxi-column>
+  </dx-data-grid>
+</div>
