@@ -122,6 +122,31 @@ export class NotasComponent implements OnInit {
     this.tituloPopUp = "Adicionar Nota";
   }
 
+  public onUpdate(event: any){
+    debugger
+    this.editPopUp = true;
+    this.tituloPopUp = "Editar Nota";
+    this.clienteSelecionado = true;
+    this.idNota = event.data.id;
+
+    this.nomeCliente = event.data.cliente.nome;
+    this.editCliente = new Cliente();
+    this.editCliente.id = event.data.cliente.id;
+
+    for (let i : number = 0; i < event.data.items.length; i++) {
+      this.editItems = new ItemNota();
+      this.editItems.produto = new Produto();
+      this.editItems.produto.id = event.data.items[i].id;
+      this.editItems.produto.codigo = event.data.items[i].produto.codigo;
+      this.editItems.produto.descricao = event.data.items[i].produto.descricao;
+      this.editItems.produto.precoUnitario = event.data.items[i].produto.precoUnitario;
+      this.editItems.item = event.data.items[i].item++
+      this.editItems.quantidade = event.data.items[i].quantidade;
+      this.editItems.valorTotal = event.data.items[i].quantidade * event.data.items[i].produto.precoUnitario;
+      this.itemsNota.push(this.editItems);
+    }
+  }
+
   public async addItem(event: any) {
     if(!this.quantidade || this.quantidade === null || this.quantidade === undefined || this.quantidade === 0){
       this.quantidade = 1;
@@ -139,20 +164,33 @@ export class NotasComponent implements OnInit {
   }
 
   public onCreate(event: any){
+
     if(this.editPopUp){
-      let idNotaEdit: number = this.notas.length - 1;
+
+      let editaNota = new Nota();
+      editaNota.id = this.idNota;
+      editaNota.cliente = this.editCliente;
+      editaNota.items = this.itemsNota;
+      this.notas.push(editaNota);
+
+      console.log(this.notas)
+      let notaAlterada: number = this.notas.length - 1;
       debugger
-      this.notaService.editNotas(this.notas[idNotaEdit], this.idNota).subscribe(res => {
+      this.notaService.editNotas(this.notas[notaAlterada], this.idNota).subscribe(res => {
         alert("Nota Editada com Sucesso");
         this.limparCampos();
       });
     }
 
     if(event.changes[0].type == "insert" && !this.editPopUp){
+
       let criaNota = new Nota();
       criaNota.cliente = this.addCliente;
       criaNota.items = this.itemsNota;
       this.notas.push(criaNota);
+
+
+
       let notaQueEuQuero: number = this.notas.length - 1;
       let notaQueEstaAtrapalhando: number = notaQueEuQuero - 1;
       delete this.notas[notaQueEstaAtrapalhando];
@@ -169,38 +207,6 @@ export class NotasComponent implements OnInit {
         this.limparCampos();
       });
     }
-
-  }
-
-  public onUpdate(event: any){
-    debugger
-    this.editPopUp = true;
-    this.tituloPopUp = "Editar Nota";
-    this.clienteSelecionado = true;
-    this.nomeCliente = event.data.cliente.nome;
-    this.editCliente = new Cliente();
-    this.editCliente.id = event.data.cliente.id;
-    this.clienteSelecionado = true;
-
-    for (let i : number = 0; i < event.data.items.length; i++) {
-      this.editItems = new ItemNota();
-      this.editItems.produto = new Produto();
-      this.editItems.produto.id = event.data.items[i].id;
-      this.editItems.produto.codigo = event.data.items[i].produto.codigo;
-      this.editItems.produto.descricao = event.data.items[i].produto.descricao;
-      this.editItems.produto.precoUnitario = event.data.items[i].produto.precoUnitario;
-      this.editItems.item = event.data.items[i].item++
-      this.editItems.quantidade = event.data.items[i].quantidade;
-      this.editItems.valorTotal = event.data.items[i].quantidade * event.data.items[i].produto.precoUnitario;
-      this.itemsNota.push(this.editItems);
-    }
-
-    this.idNota = event.data.id;
-    let editaNota = new Nota();
-    editaNota.id = this.idNota;
-    editaNota.cliente = this.editCliente;
-    editaNota.items = this.itemsNota;
-    this.notas.push(editaNota);
 
   }
 
