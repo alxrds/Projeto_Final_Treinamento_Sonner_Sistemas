@@ -44,7 +44,6 @@ export class NotasComponent implements OnInit {
   editCliente!: any;
   editPopUp: boolean = false;
 
-
   constructor(
     private notaService: NotaService,
     private clienteService: ClienteService,
@@ -128,11 +127,9 @@ export class NotasComponent implements OnInit {
     this.tituloPopUp = "Editar Nota";
     this.clienteSelecionado = true;
     this.idNota = event.data.id;
-
     this.nomeCliente = event.data.cliente.nome;
     this.editCliente = new Cliente();
     this.editCliente.id = event.data.cliente.id;
-
     for (let i : number = 0; i < event.data.items.length; i++) {
       this.editItems = new ItemNota();
       this.editItems.produto = new Produto();
@@ -166,15 +163,13 @@ export class NotasComponent implements OnInit {
   public onCreate(event: any){
 
     if(this.editPopUp){
-
       let editaNota = new Nota();
       editaNota.id = this.idNota;
       editaNota.cliente = this.editCliente;
       editaNota.items = this.itemsNota;
       this.notas.push(editaNota);
-
-      console.log(this.notas)
       let notaAlterada: number = this.notas.length - 1;
+      console.log(this.notas)
       debugger
       this.notaService.editNotas(this.notas[notaAlterada], this.idNota).subscribe(res => {
         alert("Nota Editada com Sucesso");
@@ -183,14 +178,10 @@ export class NotasComponent implements OnInit {
     }
 
     if(event.changes[0].type == "insert" && !this.editPopUp){
-
       let criaNota = new Nota();
       criaNota.cliente = this.addCliente;
       criaNota.items = this.itemsNota;
       this.notas.push(criaNota);
-
-
-
       let notaQueEuQuero: number = this.notas.length - 1;
       let notaQueEstaAtrapalhando: number = notaQueEuQuero - 1;
       delete this.notas[notaQueEstaAtrapalhando];
