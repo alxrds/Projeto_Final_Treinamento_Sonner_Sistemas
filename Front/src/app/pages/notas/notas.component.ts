@@ -117,6 +117,11 @@ export class NotasComponent implements OnInit {
     this.mostraNotas();
   }
 
+  public initNew(){
+    this.editPopUp = false;
+    this.tituloPopUp = "Adicionar Nota";
+  }
+
   public async addItem(event: any) {
     if(!this.quantidade || this.quantidade === null || this.quantidade === undefined || this.quantidade === 0){
       this.quantidade = 1;
@@ -143,8 +148,6 @@ export class NotasComponent implements OnInit {
     }
 
     if(event.changes[0].type == "insert" && !this.editPopUp){
-      this.editPopUp = false;
-      this.tituloPopUp = "Adicionar Nota";
       let criaNota = new Nota();
       criaNota.cliente = this.addCliente;
       criaNota.items = this.itemsNota;
@@ -172,7 +175,6 @@ export class NotasComponent implements OnInit {
     this.tituloPopUp = "Editar Nota";
     this.clienteSelecionado = true;
     this.nomeCliente = event.data.cliente.nome;
-
     this.editCliente = new Cliente();
     this.editCliente.id = event.data.cliente.id;
     this.clienteSelecionado = true;
@@ -184,7 +186,7 @@ export class NotasComponent implements OnInit {
       this.editItems.produto.codigo = event.data.items[i].produto.codigo;
       this.editItems.produto.descricao = event.data.items[i].produto.descricao;
       this.editItems.produto.precoUnitario = event.data.items[i].produto.precoUnitario;
-      this.editItems.item = event.data.items[i].item
+      this.editItems.item = event.data.items[i].item++
       this.editItems.quantidade = event.data.items[i].quantidade;
       this.editItems.valorTotal = event.data.items[i].quantidade * event.data.items[i].produto.precoUnitario;
       this.itemsNota.push(this.editItems);

@@ -6,6 +6,7 @@
       id="gridContainer"
       [dataSource]="notas"
       [showBorders]="true"
+      (onInitNewRow)="initNew()"
       (onSaving)="onCreate($event)"
       (onEditingStart)="onUpdate($event)"
       >
