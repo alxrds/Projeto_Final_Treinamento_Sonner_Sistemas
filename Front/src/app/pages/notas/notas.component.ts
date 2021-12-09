@@ -64,8 +64,8 @@ export class NotasComponent implements OnInit {
   public async mostraClientes() {
     const promise = this.clienteService.getClientes().toPromise();
     return promise.then(
-      (response: any) => {
-        this.clientes = response;
+      (res: any) => {
+        this.clientes = res;
       },
       (error: any) => {
         console.log(error);
@@ -76,8 +76,8 @@ export class NotasComponent implements OnInit {
   public async mostraProdutos() {
     const promise = this.produtoService.getProdutos().toPromise();
     return promise.then(
-      (response: any) => {
-        this.produtos = response;
+      (res: any) => {
+        this.produtos = res;
       },
       (error: any) => {
         console.log(error);
@@ -130,7 +130,7 @@ export class NotasComponent implements OnInit {
     this.nomeCliente = event.data.cliente.nome;
     this.editCliente = new Cliente();
     this.editCliente.id = event.data.cliente.id;
-    for (let i : number = 0; i < event.data.items.length; i++) {
+    for (let i: number = 0; i < event.data.items.length; i++) {
       this.editItems = new ItemNota();
       this.editItems.produto = new Produto();
       this.editItems.produto.id = event.data.items[i].id;
@@ -144,7 +144,7 @@ export class NotasComponent implements OnInit {
     }
   }
 
-  public async addItem(event: any) {
+  public async addItem() {
     if(!this.quantidade || this.quantidade === null || this.quantidade === undefined || this.quantidade === 0){
       this.quantidade = 1;
     }
