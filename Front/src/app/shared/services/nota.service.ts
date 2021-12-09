@@ -21,7 +21,7 @@ export class NotaService {
   }
 
   public editNotas(nota: any, id: number) {
-    return this.http.put<Nota[]>(this.urlApi, nota);
+    return this.http.put<Nota[]>(this.urlApi + id, nota);
   }
 
   public deleteNotas(id: number) {

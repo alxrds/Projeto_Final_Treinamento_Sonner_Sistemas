@@ -161,7 +161,6 @@ export class NotasComponent implements OnInit {
   }
 
   public onCreate(event: any){
-
     if(this.editPopUp){
       let editaNota = new Nota();
       editaNota.id = this.idNota;
@@ -172,7 +171,7 @@ export class NotasComponent implements OnInit {
       console.log(this.notas)
       debugger
       this.notaService.editNotas(this.notas[notaAlterada], this.idNota).subscribe(res => {
-        alert("Nota Editada com Sucesso");
+        alert(`Nota ${this.idNota} Editada com Sucesso`);
         this.limparCampos();
       });
     }
