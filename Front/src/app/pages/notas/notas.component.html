@@ -71,6 +71,7 @@
       <div *dxTemplate="let data of 'produtoTemplate'">
         <dx-select-box
           [items]="produtos"
+          id="selectProdutos"
           [displayExpr]="codigoDescricao"
           (onValueChanged)="onProdutoValues($event)"
         >

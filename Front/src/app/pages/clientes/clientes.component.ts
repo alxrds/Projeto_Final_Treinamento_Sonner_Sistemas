@@ -29,14 +29,12 @@ export class ClientesComponent implements OnInit {
 
   public async onEditChange(event: any) {
     this.clienteService.editCliente(event.data, event.key).subscribe(res => {
-      alert(`Cliente ${event.key} Editado com Sucesso`);
       this.ngOnInit();
     });
   }
 
   public async onRemoveChange(event: any) {
     this.clienteService.deleteCliente(event.key).subscribe(res => {
-      alert(`Cliente ${event.key} Excluído com Sucesso`);
       this.ngOnInit();
     });
   }
@@ -44,7 +42,6 @@ export class ClientesComponent implements OnInit {
   public async onCreateChange(event: any) {
     event.data.id = null;
     this.clienteService.addCliente(event.data).subscribe(res => {
-      alert("Cliente Adicionado com Sucesso");
       this.ngOnInit();
     });
   }

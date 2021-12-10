@@ -115,6 +115,9 @@ export class NotasComponent implements OnInit {
     this.itemsNota = [];
     this.numItem = 0;
     this.mostraNotas();
+    this.mostraClientes();
+    this.mostraProdutos();
+    this.clienteSelecionado = false;
   }
 
   public initNew(){
@@ -142,6 +145,7 @@ export class NotasComponent implements OnInit {
       this.editItems.quantidade = event.data.items[i].quantidade;
       this.editItems.valorTotal = event.data.items[i].quantidade * event.data.items[i].produto.precoUnitario;
       this.itemsNota.push(this.editItems);
+      this.mostraProdutos();
     }
   }
 
@@ -159,6 +163,7 @@ export class NotasComponent implements OnInit {
     this.addItens.quantidade = this.quantidade;
     this.addItens.valorTotal = this.quantidade * this.precoUnitario;
     this.itemsNota.push(this.addItens);
+    this.mostraProdutos();
   }
 
   public onCreate(event: any){
@@ -170,7 +175,6 @@ export class NotasComponent implements OnInit {
       this.notas.push(editaNota);
       let notaAlterada: number = this.notas.length - 1;
       this.notaService.editNotas(this.notas[notaAlterada], this.idNota).subscribe(res => {
-        alert(`Nota ${this.idNota} Editada com Sucesso`);
         this.limparCampos();
       });
     }
@@ -184,14 +188,12 @@ export class NotasComponent implements OnInit {
       let notaQueEstaAtrapalhando: number = notaQueEuQuero - 1;
       delete this.notas[notaQueEstaAtrapalhando];
       this.notaService.addNota(this.notas[notaQueEuQuero]).subscribe(res => {
-        alert("Nota Adicionada com Sucesso");
         this.limparCampos();
       });
     }
 
     if(event.changes[0].type == "remove" && !this.editPopUp){
       this.notaService.deleteNotas(event.changes[0].key.id).subscribe(res => {
-        alert(`Nota Excluída ${event.changes[0].key.id} com Sucesso`);
         this.limparCampos();
       });
     }

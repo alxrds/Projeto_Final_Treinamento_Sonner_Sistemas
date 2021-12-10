@@ -29,14 +29,12 @@ export class ProdutosComponent implements OnInit {
 
   public async onEditChange(event: any) {
     this.produtoService.editProdutos(event.data, event.key).subscribe(res => {
-      alert(`Produto ${event.key} Editado com Sucesso`);
       this.ngOnInit();
     });
   }
 
   public async onRemoveChange(event: any) {
     this.produtoService.deleteProdutos(event.key).subscribe(res => {
-      alert(`Produto ${event.key} Excluído com Sucesso`);
       this.ngOnInit();
     });
   }
@@ -44,7 +42,6 @@ export class ProdutosComponent implements OnInit {
   public async onCreateChange(event: any) {
     event.data.id = null;
     this.produtoService.addProdutos(event.data).subscribe(res => {
-      alert("Produto Adicionado com Sucesso");
       this.ngOnInit();
     });
   }
