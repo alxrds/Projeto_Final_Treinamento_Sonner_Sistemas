@@ -113,6 +113,7 @@ export class NotasComponent implements OnInit {
 
   public limparCampos(){
     this.itemsNota = [];
+    this.numItem = 0;
     this.mostraNotas();
   }
 
