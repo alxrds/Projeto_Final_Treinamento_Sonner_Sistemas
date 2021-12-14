@@ -29,7 +29,7 @@ public class NotaController {
     @PostMapping
     public ResponseEntity<Nota>save(@RequestBody Nota nota) {
         BigDecimal totalDaNota = BigDecimal.ZERO;
-        for (ItemNota itemNota : nota.getItems()) {
+        for (ItemNota itemNota: nota.getItems()) {
             itemNota.setNota(nota);
             itemNota.setValorTotal(itemNota.getQuantidade().multiply(itemNota.getProduto().getPrecoUnitario()));
             totalDaNota = totalDaNota.add(itemNota.getValorTotal());
@@ -58,20 +58,17 @@ public class NotaController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Nota>update(@PathVariable Integer id, @RequestBody Nota newNota) {
-        return notaRepository.findById(id).map(nota -> {
-            nota.setCliente(newNota.getCliente());
-            BigDecimal totalDaNota = BigDecimal.ZERO;
-            for (ItemNota itemNota: nota.getItems()) {
-                itemNota.setNota(nota);
-                nota.setItems(itemNota.getNota().getItems());
-                itemNota.setValorTotal(itemNota.getQuantidade().multiply(itemNota.getProduto().getPrecoUnitario()));
-                totalDaNota = totalDaNota.add(itemNota.getValorTotal());
-            }
-            nota.setValorNota(totalDaNota);
-            Nota notaAlterada = notaRepository.save(nota);
-            return ResponseEntity.ok().body(notaAlterada);
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Nota>update(@RequestBody Nota nota) {
+        BigDecimal totalDaNota = BigDecimal.ZERO;
+        for (ItemNota itemNota: nota.getItems()) {
+            itemNota.setNota(nota);
+            nota.setItems(itemNota.getNota().getItems());
+            itemNota.setValorTotal(itemNota.getQuantidade().multiply(itemNota.getProduto().getPrecoUnitario()));
+            totalDaNota = totalDaNota.add(itemNota.getValorTotal());
+        }
+        nota.setValorNota(totalDaNota);
+        Nota notaAlterada = notaRepository.save(nota);
+        return new ResponseEntity<Nota>(notaAlterada, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
